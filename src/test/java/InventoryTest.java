@@ -14,5 +14,12 @@ public class InventoryTest extends BaseTest {
         assertTrue(inventoryPage.inventoryListIsDisplayed());
         // assert item quantity equals
         assertEquals(6, inventoryPage.getItemsQuantity());
+
+        assertTrue(inventoryPage.allItemsAreDisplayed());
+        //
+        assertTrue(inventoryPage.allItemNamesAreDisplayed());
+        assertTrue(inventoryPage.allItemNamesAreNotEmpty());
+
+        assertTrue("Not all names contains Sauce Labs", inventoryPage.allNamesStartWithSauceLabs());
     }
 }
