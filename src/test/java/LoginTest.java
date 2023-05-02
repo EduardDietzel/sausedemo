@@ -50,5 +50,17 @@ public class LoginTest extends BaseTest{
         assertTrue(loginPage.getErrorMessageText().contains("Username and password do not match any user in this service"));
     }
 
+    @Test
+    public void successLogout(){
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.successLogin(validUser);
+        InventoryPage inventoryPage = new InventoryPage(driver);
+        assertTrue(inventoryPage.inventoryListIsDisplayed());
+        inventoryPage.clickOnBurgerMenuBtn();
+        SideBar sideBar = new SideBar(driver);
+        sideBar.clickOnLogoutButton();
+        assertTrue(loginPage.loginButtonIsDisplayed());
+    }
+
 
 }
