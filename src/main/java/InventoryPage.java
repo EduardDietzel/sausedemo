@@ -19,14 +19,29 @@ public class InventoryPage extends BasePage{
     List<WebElement> inventoryItems;
 
     @FindBy(css = "img[class=\'inventory_item_img\']")
-    List<WebElement> inventoryItemsImeges;
+    List<WebElement> inventoryItemsImages;
 
     @FindBy(className = "inventory_item_name")
     List<WebElement> inventoryNames;
 
+    @FindBy(className = "inventory_item_price")
+    private List<WebElement> inventoryPrices;
+
     @FindBy(id = "react-burger-menu-btn")
     private WebElement burgerMenuBtn;
     // находим иконку бургера и находим её локатор по id
+
+    @FindBy(id = "add-to-cart-sauce-labs-backpack")
+    private WebElement backpackAddToCart;
+
+    @FindBy(className = "shopping_cart_link")
+    private WebElement cartIcon;
+
+    @FindBy(id = "add-to-cart-sauce-labs-bike-light")
+    private WebElement bikeLightAddToCart;
+
+    @FindBy(id = "add-to-cart-sauce-labs-bolt-t-shirt")
+    private WebElement boltTshirtAddToCart;
 
     // constructor
     //class = inventory_list
@@ -95,5 +110,33 @@ public class InventoryPage extends BasePage{
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(burgerMenuBtn));
         burgerMenuBtn.click();
+    }
+
+    public void clickOnBackpackAddToCart(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(backpackAddToCart));
+        backpackAddToCart.click();
+    }
+
+    public void clickOnBikeLightAddToCart(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(bikeLightAddToCart));
+        bikeLightAddToCart.click();
+    }
+
+    public void clickOnBoltTshirtAddToCart(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(boltTshirtAddToCart));
+        boltTshirtAddToCart.click();
+    }
+
+    public void clickOnCartItem(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(cartIcon));
+        cartIcon.click();
+    }
+
+    public String getPriceOfFirstItem(){
+        return inventoryPrices.get(0).getText();
     }
 }
