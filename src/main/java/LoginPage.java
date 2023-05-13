@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,15 +24,22 @@ public class LoginPage extends BasePage{
     @FindBy(tagName = "h3")
     private WebElement errorMessage;
 
+
+    @Step("Enter value to username")
     public void enterValueToUserName(User user){
+        // enterTextToElement(user.getUsername(), userNameInputField);
         userNameInputField.sendKeys(user.getUsername());
     }
 
+    @Step("Enter value to password")
     public void enterValueToPassword(User user){
+        // enterTextToElement(user.getPassword(), passwordInputField);
         passwordInputField.sendKeys(user.getPassword());
     }
 
+    @Step("Push the Login button")
     public void clickOnLoginButton(){
+        // clickOnElement(loginButton);
         loginButton.click();
     }
 
@@ -40,6 +48,7 @@ public class LoginPage extends BasePage{
     }
 
     public String getErrorMessageText(){
+        // return getTxtOfElement(errorMessage);
         return errorMessage.getText();
     }
 

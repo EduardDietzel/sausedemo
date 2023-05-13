@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+import static java.lang.Double.parseDouble;
+
 public class CartPage extends BasePage{
     public CartPage(WebDriver driver) {
         super(driver);
@@ -39,6 +41,8 @@ public class CartPage extends BasePage{
     }
 
     public String getPriceOfFirstAddedItem(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(itemPrices.get(0)));
         return itemPrices.get(0).getText();
     }
 
@@ -46,6 +50,17 @@ public class CartPage extends BasePage{
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
         checkoutButton.click();
+    }
+
+    // ндо проверить цену всех товаров в корзине и сложить их
+    public double getTotalPriceOfItems(){
+        double total = 0;
+        for (WebElement price : itemPrices) {
+            // сначала мы получим строку, но там есть знак $ его надо убрать и получить число из строки
+            // метод parseDouble превращает строку в число
+            total+=parseDouble(price.getText().substring(1));
+        }
+        return total;
     }
 
 }

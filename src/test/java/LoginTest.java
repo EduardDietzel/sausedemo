@@ -1,3 +1,5 @@
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
@@ -17,8 +19,8 @@ public class LoginTest extends BaseTest{
 //        // паттерны Пейдж-Обджект
 //    }
 
-
-    @Test
+    @Test @DisplayName("Success Login")
+    @Description("Login with valid data")
     public void loginWithValidDataPO(){
         LoginPage loginPage = new LoginPage(driver);
         loginPage.enterValueToUserName(validUser);
@@ -28,7 +30,6 @@ public class LoginTest extends BaseTest{
         InventoryPage inventoryPage = new InventoryPage(driver);
         assertTrue(inventoryPage.inventoryListIsDisplayed());
     }
-
 
     public void loginWithLockedOutUser(){
         LoginPage loginPage = new LoginPage(driver);

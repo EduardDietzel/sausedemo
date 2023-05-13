@@ -33,4 +33,28 @@ public class CheckoutTest extends BaseTest{
         assertEquals("Thank you for your order!", checkoutCompletePage.getSuccessMessageText());
 
     }
+
+    @Test
+    public void checkFinalCost(){
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.successLogin(validUser);
+        InventoryPage inventoryPage = new InventoryPage(driver);
+        assertTrue(inventoryPage.inventoryListIsDisplayed());
+        // добавление 3 товаров в корзину и заход в корзину:
+        inventoryPage.clickOnBackpackAddToCart();
+        inventoryPage.clickOnBikeLightAddToCart();
+        inventoryPage.clickOnBoltTshirtAddToCart();
+        inventoryPage.clickOnCartItem();
+        CartPage cartPage = new CartPage(driver);
+        double totalFromCart = cartPage.getTotalPriceOfItems();
+        cartPage.clickOnCheckoutButton();
+        CheckoutStepOnePage checkoutStepOnePage = new CheckoutStepOnePage(driver);
+        checkoutStepOnePage.enterValueToFirstName("John");
+        checkoutStepOnePage.enterValueToLastName("Groll");
+        checkoutStepOnePage.enterValueToZipCode("7676");
+        checkoutStepOnePage.clickOnContinueButton();
+        // попадаем на страницу 2
+        CheckoutStepTwoPage checkoutStepTwoPage = new CheckoutStepTwoPage(driver);
+        assertEquals(totalFromCart, checkoutStepTwoPage.getItemTotal(), 0);
+    }
 }

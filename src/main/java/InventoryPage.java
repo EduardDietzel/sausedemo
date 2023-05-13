@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,6 +48,7 @@ public class InventoryPage extends BasePage{
     //class = inventory_list
     // element is displayed
 
+    @Step("Inventory page is open")
     public boolean inventoryListIsDisplayed(){
         return inventoryList.isDisplayed();
     }
@@ -77,6 +79,8 @@ public class InventoryPage extends BasePage{
             }
         }
         return displayed;
+        // 1. is displayed == true (for all items)
+        // 2. not empty (for all items)
     }
 
     public boolean allItemNamesAreNotEmpty(){

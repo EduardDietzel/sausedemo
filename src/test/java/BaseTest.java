@@ -1,8 +1,16 @@
+import io.qameta.allure.Attachment;
 import org.junit.After;
+import org.junit.AssumptionViolatedException;
 import org.junit.Before;
+import org.junit.Rule;
+
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import java.time.Duration;
+
 
 public class BaseTest {
     ChromeDriver driver;
@@ -18,10 +26,39 @@ public class BaseTest {
         driver.get(BASE_URL);
     }
 
-    @After
+//    @After
     public void TearDown(){
         driver.quit();
     }
+
+    @Rule
+    public TestWatcher screenShotOnFailure = new TestWatcher() {
+        @Override
+        protected void failed(Throwable e, org.junit.runner.Description description) {
+            makeScreenshotOnFailure();
+            driver.close();
+            driver.quit();
+        }
+
+        @Override
+        protected void skipped(AssumptionViolatedException e, Description description) {
+            makeScreenshotOnFailure();
+            driver.close();
+            driver.quit();
+        }
+
+        @Override
+        protected void succeeded(Description description) {
+            driver.close();
+            driver.quit();
+        }
+
+        @Attachment
+        public byte[] makeScreenshotOnFailure(){
+            return  ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+        }
+    };
+
 
     String validUserNameValue = "standard_user";
     String validUSerPasswordValue = "secret_sauce";
