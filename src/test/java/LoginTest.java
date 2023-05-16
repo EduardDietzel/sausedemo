@@ -28,7 +28,12 @@ public class LoginTest extends BaseTest{
         loginPage.clickOnLoginButton();
         // проверка успешной авторизации
         InventoryPage inventoryPage = new InventoryPage(driver);
-        assertTrue(inventoryPage.inventoryListIsDisplayed());
+        assertTrue("Inventory page is NOT open", inventoryPage.inventoryListIsDisplayed());
+
+//        LoginPage loginPage = new LoginPage(driver);
+//        assertTrue(loginPage.enterValueToUserName(validUser)
+//                     .enterValueToPassword(validUser)
+//                     .clickOnLoginButton().inventoryListIsDisplayed());
     }
 
     public void loginWithLockedOutUser(){
@@ -50,7 +55,6 @@ public class LoginTest extends BaseTest{
         loginPage.clickOnLoginButton();
         assertTrue(loginPage.getErrorMessageText().contains("Username and password do not match any user in this service"));
     }
-
 
     public void successLogout(){
         LoginPage loginPage = new LoginPage(driver);

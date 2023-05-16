@@ -6,7 +6,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.lang.Double.parseDouble;
 
 public class InventoryPage extends BasePage{
 
@@ -43,6 +47,22 @@ public class InventoryPage extends BasePage{
 
     @FindBy(id = "add-to-cart-sauce-labs-bolt-t-shirt")
     private WebElement boltTshirtAddToCart;
+
+    @FindBy(className = "product_sort_container")
+    private WebElement sortDropDown;
+
+    @FindBy(css = "[value='lohi']")
+    private WebElement lowToHigh;
+
+    @FindBy(css = "[value='hilo']")
+    private WebElement highToLow;
+
+    @FindBy(css = "[value='az']")
+    private WebElement aToZ;
+
+    @FindBy(css = "[value='za']")
+    private WebElement zToA;
+
 
     // constructor
     //class = inventory_list
@@ -143,4 +163,79 @@ public class InventoryPage extends BasePage{
     public String getPriceOfFirstItem(){
         return inventoryPrices.get(0).getText();
     }
+
+    // пишем метод для нажатия списка фильтра выбора товаров
+    public void choosePriceLowToHighSortOption(){
+        // используем метод clickOnElement из класса BasePage
+        clickOnElement(sortDropDown);
+        clickOnElement(lowToHigh);
+    }
+
+    public void choosePriceHighToLowSortOption(){
+        clickOnElement(sortDropDown);
+        clickOnElement(highToLow);
+    }
+
+    public void chooseNameAToZSortOption(){
+        clickOnElement(sortDropDown);
+        clickOnElement(aToZ);
+    }
+
+    public void chooseNameZToASortOption(){
+        clickOnElement(sortDropDown);
+        clickOnElement(zToA);
+    }
+
+    // метод для выборки прайсов товаров
+    public boolean checkPriceSortFromLowToHigh(){
+        List<Double> actualPrices = new ArrayList<>();
+        for (WebElement price : inventoryPrices) {
+            actualPrices.add(parseDouble(price.getText().replaceAll("[^0-9.]", "")));
+            // теперь надо перевести Строку в Дабл
+        }
+        List<Double> expectedPrices = new ArrayList<>(actualPrices);
+        // теперь надо отсортировать список с помощью Джавы
+        Collections.sort(expectedPrices);
+        // сравниваем реальное с ожидаемым
+        return actualPrices.equals(expectedPrices);
+    }
+
+    public boolean checkPriceSortFromHighToLow(){
+        List<Double> actualPrices = new ArrayList<>();
+        for (WebElement price : inventoryPrices) {
+            actualPrices.add(parseDouble(price.getText().replaceAll("[^0-9.]", "")));
+            // теперь надо перевести Строку в Дабл
+        }
+        List<Double> expectedPrices = new ArrayList<>(actualPrices);
+        // теперь надо отсортировать список с помощью Джавы в обратном порядке
+        Collections.sort(expectedPrices, Collections.reverseOrder());
+        // сравниваем реальное с ожидаемым
+        return actualPrices.equals(expectedPrices);
+    }
+
+    public boolean checkNameSortFromAToZ(){
+        List<String> actualNames = new ArrayList<>();
+        for (WebElement name : inventoryNames) {
+            actualNames.add(name.getText());
+        }
+        List<String> expectedNames = new ArrayList<>(actualNames);
+        // теперь надо отсортировать список с помощью Джавы
+        // Джава автоматически сортирует текст по алфавиту, отсекая повторяющиеся буквы сначала
+        Collections.sort(expectedNames);
+        // сравниваем реальное с ожидаемым
+        return actualNames.equals(expectedNames);
+    }
+
+    public boolean checkNameSortFromZToA(){
+        List<String> actualNames = new ArrayList<>();
+        for (WebElement name : inventoryNames) {
+            actualNames.add(name.getText());
+        }
+        List<String> expectedNames = new ArrayList<>(actualNames);
+        // теперь надо отсортировать список с помощью Джавы в обратном порядке
+        Collections.sort(expectedNames, Collections.reverseOrder());
+        // сравниваем реальное с ожидаемым
+        return actualNames.equals(expectedNames);
+    }
+
 }
